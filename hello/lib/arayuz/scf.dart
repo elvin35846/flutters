@@ -11,12 +11,12 @@ class ScaffolUyesi extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.playlist_play),
             tooltip: 'Air it',
-            onPressed: () => print('Air it'),
+            onPressed: () => Navigator.pushNamed(context, '/home'),
           ),
           IconButton(
             icon: const Icon(Icons.playlist_add),
             tooltip: 'Restitch it',
-            onPressed: () => print('Restitch it'),
+            onPressed: () => Navigator.pushNamed(context, '/hello'),
           ),
           IconButton(
             icon: const Icon(Icons.playlist_add_check),
@@ -33,20 +33,45 @@ class ScaffolUyesi extends StatelessWidget {
         mainAxisSpacing: 10,
         crossAxisCount: 2,
         children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: const Text('He\'d have you all unravel at the'),
-              color: Colors.teal[100],
+            new GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/'),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage('https://i.ytimg.com/vi/Qw4_922hdUI/maxresdefault.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              padding: const EdgeInsets.all(20),
+              alignment: Alignment.bottomCenter,
+              child: Transform(
+                alignment: Alignment.bottomCenter,
+                transform: Matrix4.skewY(0.0)..rotateZ(0.0),
+                child: Container(
+                  padding: EdgeInsets.all(20.0),
+                  color: Color(0xFFFFFFFF),
+                  child: new Text('Tek tiklama - Ilk sayfaya git', textAlign: TextAlign.center),
+                ),
+              ),
+              ),
             ),
-            Container(
+            new GestureDetector(
+              onDoubleTap: () => Navigator.pushNamed(context, '/home'),
+              child: Container(
               padding: const EdgeInsets.all(8),
-              child: const Text('Heed not the rabble'),
+              child: const Text('Chift tiklama - Home sayfasina git'),
+              alignment: Alignment.center,
               color: Colors.teal[200],
+              ),
             ),
-            Container(
+            new GestureDetector(
+              onLongPress: () => Navigator.pushNamed(context, '/hello'),
+              child: Container(
               padding: const EdgeInsets.all(8),
-              child: const Text('Sound of screams but the'),
+              child: const Text('Uzun basma - Hello sayfasina git'),
+              alignment: Alignment.center,
               color: Colors.teal[300],
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
