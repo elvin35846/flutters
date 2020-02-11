@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ScaffolUyesi extends StatelessWidget {
   @override
@@ -73,10 +74,27 @@ class ScaffolUyesi extends StatelessWidget {
               color: Colors.teal[300],
               ),
             ),
-            Container(
+            new GestureDetector(
+              onDoubleTap: () {
+                Fluttertoast.showToast(
+                  msg: "Bu uyeye ikidefe tikladiz",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.white,
+                  textColor: Colors.black,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage('https://media.geeksforgeeks.org/wp-content/uploads/Toast.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               padding: const EdgeInsets.all(8),
-              child: const Text('Who scream'),
-              color: Colors.teal[400],
+              child: const Text('Show Bottom Toast'),
+              alignment: Alignment.center,
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
