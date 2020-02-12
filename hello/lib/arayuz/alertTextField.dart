@@ -36,7 +36,6 @@ class AlertTextField extends StatefulWidget {
                   child: Text("Tamam"),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    yaziKontrolcusu.text = "";
                   },
                 ),
               ],
