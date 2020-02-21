@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ScaffolUyesi extends StatelessWidget {
   @override
@@ -73,15 +74,70 @@ class ScaffolUyesi extends StatelessWidget {
               color: Colors.teal[300],
               ),
             ),
-            Container(
+            new GestureDetector(
+              onLongPress: () {
+                Fluttertoast.showToast(
+                  msg: "Bu uyeye uzun tikladiz",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.TOP,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                );
+              },
+              onTap: () {
+                Fluttertoast.showToast(
+                  msg: "Bu uyeye birdefe tikladiz",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                  backgroundColor: Colors.blue,
+                  textColor: Colors.white,
+                );
+              },
+              onDoubleTap: () {
+                Fluttertoast.showToast(
+                  msg: "Bu uyeye ikidefe tikladiz",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.grey,
+                  textColor: Colors.white,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage('https://media.geeksforgeeks.org/wp-content/uploads/Toast.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               padding: const EdgeInsets.all(8),
-              child: const Text('Who scream'),
-              color: Colors.teal[400],
+              child: const Text('Show Bottom Toast'),
+              alignment: Alignment.center,
+              ),
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: const Text('Revolution is coming...'),
-              color: Colors.teal[500],
+            new GestureDetector(
+              onTap: () {
+                debugPrint("AlertView sayfasina gidiliyor");
+                Navigator.pushNamed(context, "/alertTextField");
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage('https://i.ytimg.com/vi/Qw4_922hdUI/maxresdefault.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              padding: const EdgeInsets.all(20),
+              alignment: Alignment.bottomCenter,
+              child: Transform(
+                alignment: Alignment.bottomCenter,
+                transform: Matrix4.skewY(0.0)..rotateZ(0.0),
+                child: Container(
+                  padding: EdgeInsets.all(20.0),
+                  color: Color(0xFFFFFFFF),
+                  child: new Text('Alert text filed', textAlign: TextAlign.center),
+                ),
+              ),
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
