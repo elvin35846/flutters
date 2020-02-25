@@ -167,6 +167,30 @@ class ScaffolUyesi extends StatelessWidget {
               color: Colors.amber,
               alignment: Alignment.center,
             ),
+          ),
+          new GestureDetector(
+            onDoubleTap: () {
+              debugPrint("Json Konusuna kecid");
+              Navigator.pushNamed(context, "/jsonkonusu");
+            },
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Json Konusu Sayfasi"),
+              color: Colors.blueAccent,
+              alignment: Alignment.center,
+            ),
+          ),
+          new GestureDetector(
+            onDoubleTap: () {
+              debugPrint("Local Json Konusuna kecid");
+              Navigator.pushNamed(context, "/localjsonkonusu");
+            },
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Local Json Konusu"),
+              color: Colors.greenAccent,
+              alignment: Alignment.center,
+            ),
           )
         ],
       )),

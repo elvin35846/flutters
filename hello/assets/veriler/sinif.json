@@ -1,0 +1,41 @@
+[
+    {
+        "okulno": 324,
+        "ad": "Mehmet",
+        "soyadi": "Gumus",
+        "cinsiyet": "Erkek",
+        "basarili": true,
+        "veli": {
+            "ad": "Ali",
+            "soyadi": "Bayram",
+            "yakinlik": "Dayisi",
+            "telno": 6767815
+        }
+    },
+    {
+        "okulno": 324,
+        "ad": "Veli",
+        "soyadi": "Bal",
+        "cinsiyet": "Erkek",
+        "basarili": false,
+        "veli": {
+            "ad": "Ali",
+            "soyadi": "Bayram",
+            "yakinlik": "Dayisi",
+            "telno": 6767815
+        }
+    },
+    {
+        "okulno": 225,
+        "ad": "Fatma",
+        "soyadi": "Kasikci",
+        "cinsiyet": "Kadin",
+        "basarili": true,
+        "veli": {
+            "ad": "Ahmet",
+            "soyadi": "Kasikci",
+            "yakinlik": "Babasi",
+            "telno": 2767815
+        }
+    }
+]
