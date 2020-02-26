@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hello/mywidgets/main_card.dart';
 
 class ScaffolUyesi extends StatelessWidget {
   @override
@@ -34,6 +35,7 @@ class ScaffolUyesi extends StatelessWidget {
         mainAxisSpacing: 10,
         crossAxisCount: 2,
         children: <Widget>[
+          MainCard("/elfeneri", "El fenerim"),
           new GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/'),
             child: Container(
@@ -192,18 +194,7 @@ class ScaffolUyesi extends StatelessWidget {
               alignment: Alignment.center,
             ),
           ),
-          new GestureDetector(
-            onDoubleTap: () {
-              debugPrint("Basit http sayfasina gedildi");
-              Navigator.pushNamed(context, "/basithttp");
-            },
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Basit Http"),
-              color: Colors.greenAccent,
-              alignment: Alignment.center,
-            ),
-          )
+          
         ],
       )),
 
