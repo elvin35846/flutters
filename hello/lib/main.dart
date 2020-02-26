@@ -4,6 +4,7 @@ import './arayuz/hello.dart';
 import './arayuz/scf.dart';
 import './arayuz/alertTextField.dart';
 import './arayuz/jsonkonusu.dart';
+import 'arayuz/basithttp.dart';
 import 'arayuz/localjsonkonusu.dart';
 import 'arayuz/shared.dart';
 import 'arayuz/dosya.dart';
@@ -20,6 +21,7 @@ void main() {
       '/dosya': (context) => Dosya(kayitishlemi: KayitIshlemleri()),
       '/jsonkonusu': (context) => JsonKonusu(),
       '/localjsonkonusu': (context) => LokalJsonKonusu(),
+      '/basithttp': (context) => BasitHttp(),
     },
   ));
 }

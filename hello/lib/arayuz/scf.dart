@@ -191,6 +191,18 @@ class ScaffolUyesi extends StatelessWidget {
               color: Colors.greenAccent,
               alignment: Alignment.center,
             ),
+          ),
+          new GestureDetector(
+            onDoubleTap: () {
+              debugPrint("Basit http sayfasina gedildi");
+              Navigator.pushNamed(context, "/basithttp");
+            },
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Basit Http"),
+              color: Colors.greenAccent,
+              alignment: Alignment.center,
+            ),
           )
         ],
       )),
