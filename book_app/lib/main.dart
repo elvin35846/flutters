@@ -43,19 +43,20 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: "flamin",
+                    style: TextStyle(fontStyle: FontStyle.italic, ),
                   ),
                   TextSpan(
                     text: "Go.",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                      color: Color(0xFFFF9800),
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * .6,
+              width: MediaQuery.of(context).size.width * .4,
               child: RoundedButton(
                 text: "Start",
                 fontSize: 20,
