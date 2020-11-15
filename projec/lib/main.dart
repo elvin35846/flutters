@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'list/list.dart';
+
 void main() {
-  runApp(MyApp2());
+  runApp(MyList());
 }
 
 class MyApp2 extends StatelessWidget {

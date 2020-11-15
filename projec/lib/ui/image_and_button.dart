@@ -101,7 +101,7 @@ class ImageAndButton extends StatelessWidget {
                     children: [
                       FlutterLogo(
                         size: 60,
-                        colors: Colors.orange,
+                        textColor: Colors.orange,
                       ),
                       Text(
                         "Flutter Logo",
