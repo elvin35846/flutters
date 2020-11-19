@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'etkin_list.dart';
+
+import 'custom_scrool_view.dart';
+//import 'grid_view.dart';
+//import 'etkin_list.dart';
 //import 'list_body.dart';
 
 class MyList extends StatelessWidget {
@@ -18,7 +21,7 @@ class MyList extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: EtkinListe(),
+        body: CustomScrollViewTutorial(),
       ),
     );
   }
