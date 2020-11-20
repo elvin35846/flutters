@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'navigation_work.dart';
+import 'horoscope_list.dart';
 
-class MyNavigation extends StatelessWidget {
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Navigation paragraph 15",
+      title: "Horoscope app",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.blueGrey,
+        primarySwatch: Colors.blue,
       ),
-      home: NavigationWork(),
+      home: HoroscopeList(),
     );
   }
 }
