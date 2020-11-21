@@ -3,14 +3,14 @@ import 'package:horoscope_app/models/horoscop.dart';
 import 'package:horoscope_app/utils/strings_2.dart';
 
 class HoroscopeList extends StatelessWidget {
-  List<Horoscop> allHoroscop;
+  static List<Horoscop> allHoroscop;
 
   @override
   Widget build(BuildContext context) {
     allHoroscop = makeData();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Horoscope App"),
+        title: Text("Burçlar 2021"),
       ),
       body: listMake(),
     );
@@ -53,6 +53,7 @@ class HoroscopeList extends StatelessWidget {
     return Card(
       elevation: 4,
       child: ListTile(
+        onTap: ()=> Navigator.pushNamed(context, "/burcDetay/$index"),
         leading: Image.asset(
           "images/" + payloadDate.horoscopeSmallImg,
           width: 64,
