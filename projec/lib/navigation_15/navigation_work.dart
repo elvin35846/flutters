@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NavigationWork extends StatelessWidget {
   String header = "About page";
   @override
@@ -127,6 +128,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class AboutPage extends StatelessWidget {
   String value;
   //AboutPage(this.value);

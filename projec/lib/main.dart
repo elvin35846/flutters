@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'navigation_15/navigation.dart';
+import 'form/form.dart';
+
+//import 'navigation_15/navigation.dart';
 
 //import 'list/list.dart';
 
 void main() {
-  runApp(MyNavigation());
+  runApp(FormParagraph());
 }
 
 class MyApp2 extends StatelessWidget {
