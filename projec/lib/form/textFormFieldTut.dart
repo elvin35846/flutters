@@ -30,7 +30,7 @@ class _TextFormFieldTutState extends State<TextFormFieldTut> {
           padding: EdgeInsets.all(20),
           child: Form(
               key: formKey,
-              autovalidate: control,
+              //autovalidate: control,
               child: ListView(
                 children: [
                   TextFormField(

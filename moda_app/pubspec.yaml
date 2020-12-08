@@ -46,7 +46,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/modelgrid1.jpeg
+     - assets/model0.jpg
+     - assets/fendi.jpg
+     - assets/fendi.png
+     - assets/modelgrid1.jpg
      - assets/modelgrid2.jpeg
      - assets/modelgrid3.jpeg
      - assets/model1.jpeg

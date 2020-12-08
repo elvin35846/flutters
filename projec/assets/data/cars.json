@@ -1,0 +1,53 @@
+[
+  {
+    "car_name": "Mercedes",
+    "country": "Germany",
+    "year": 2010,
+    "model": [
+      {
+        "model_name": "C 300",
+        "price": 25000,
+        "engine": "3.0L 6-Cylinder Petrol"
+      },
+      {
+        "model_name": "C 200",
+        "price": 18000,
+        "engine": "2.0L Petrol"
+      }
+    ]
+  },
+  {
+    "car_name": "BMW",
+    "country": "Germany",
+    "year": 2010,
+    "model": [
+      {
+        "model_name": "328i",
+        "price": 18000,
+        "engine": "2.8L Petrol"
+      },
+      {
+        "model_name": "525",
+        "price": 26000,
+        "engine": "2.5L Petrol"
+      }
+    ]
+  },
+  {
+    "car_name": "Opel",
+    "country": "Germany",
+    "year": 2008,
+    "model": [
+      {
+        "model_name": "Astra",
+        "price": 15200,
+        "engine": "2.0L Petrol"
+      },
+      {
+        "model_name": "Vectra",
+        "price": 11600,
+        "engine": "2.0L Petrol"
+      }
+    ]
+  }
+]
