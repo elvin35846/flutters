@@ -1,8 +1,11 @@
 import 'package:doner_app/core/const.dart';
 import 'package:doner_app/models/food_model.dart';
+import 'package:doner_app/widgets/app_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'dart:math' as math;
+
+import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -14,84 +17,140 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<FoodModel> foodList = FoodModel.list;
   PageController pageController = PageController(viewportFraction: 0.8);
+  var paddingLeft = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 50),
-              child: Stack(children: [
-                _buildRightBlock(),
-              ]),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: 60,
-              padding: EdgeInsets.only(top: 35, bottom: 15),
-              color: AppColors.greenColor,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30),
-                        ),
-                        image: DecorationImage(
-                            image: ExactAssetImage("assets/profile.jpg")),
+        child: Stack(children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 50),
+            child: Stack(children: [
+              _buildRightBlock(),
+            ]),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: 60,
+            padding: EdgeInsets.only(top: 35, bottom: 15),
+            color: AppColors.greenColor,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                      image: DecorationImage(
+                          image: ExactAssetImage("assets/profile.jpg")),
+                    ),
+                  ),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
                       ),
                     ),
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30),
-                        ),
+                    child: Center(
+                      child: Icon(
+                        Icons.more_vert,
+                        color: Colors.green.shade800,
+                        size: 30,
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.more_vert,
-                          color: Colors.green.shade800,
-                          size: 30,
+                    ),
+                  )
+                ]),
+          ),
+          Positioned(
+            bottom: -35,
+            child: Transform.rotate(
+              angle: -math.pi / 2,
+              alignment: Alignment.topLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    //color: Colors.red,
+                    child: Row(
+                      children: [
+                        _buildMenu("Vegetables", 0),
+                        _buildMenu("Chicken", 1),
+                        _buildMenu("Beef", 2),
+                        _buildMenu("Thai", 3),
+                      ],
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 250),
+                    margin: EdgeInsets.only(left: paddingLeft),
+                    width: 140,
+                    height: 60,
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ClipPath(
+                            clipper: AppClipper(),
+                            child: Container(
+                              width: 140,
+                              height: 50,
+                              color: AppColors.greenColor,
+                            ),
+                          ),
                         ),
-                      ),
-                    )
-                  ]),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Transform.rotate(
-                angle: -math.pi / 2,
-                alignment: Alignment.topLeft,
-                child: Row(
-                  children: [
-                    _buildMenu("Vegetables"),
-                    _buildMenu("Chicken"),
-                    _buildMenu("Beef"),
-                    _buildMenu("Thai"),
-                  ],
-                ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Transform.rotate(
+                            angle: math.pi / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 26),
+                              child: Icon(
+                                Icons.lunch_dining,
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
 
-  Widget _buildMenu(String menuText) {
-    return Container(
-      width: 150,
-      child: Center(
-        child: Text(menuText, style: TextStyle(fontSize: 18)),
+  Widget _buildMenu(String menuText, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          paddingLeft = index * 140.0;
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.only(top: 16),
+        width: 140,
+        child: Center(
+          child: Center(
+            child: Text(
+              menuText,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -112,40 +171,51 @@ class _HomePageState extends State<HomePage> {
                     itemCount: foodList.length,
                     controller: pageController,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 30),
-                        child: Stack(
-                          children: [
-                            _buildBackGround(index),
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Transform.rotate(
-                                angle: 120,
-                                child: Image(
-                                    width: 180,
-                                    image: AssetImage(
-                                        "assets/${foodList[index].imgPath}")),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 30,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 12),
-                                child: Text(
-                                  "${foodList[index].price.toInt()} azn",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.redColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => DetailPage(foodList[index])),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 30),
+                          child: Stack(
+                            children: [
+                              _buildBackGround(index),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Transform.rotate(
+                                  angle: 120,
+                                  child: Hero(
+                                    tag: "image${foodList[index].imgPath}",
+                                    child: Image(
+                                        width: 180,
+                                        image: AssetImage(
+                                            "assets/${foodList[index].imgPath}")),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                bottom: 0,
+                                right: 30,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 12),
+                                  child: Text(
+                                    "${foodList[index].price.toInt()} azn",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.redColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
