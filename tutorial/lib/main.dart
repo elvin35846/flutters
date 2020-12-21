@@ -1,38 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tutorial/file_operations.dart';
+//import 'package:tutorial/shared_pref.dart';
 
 void main() {
-  runApp(FlutterTutorialApp());
+  runApp(MyApp());
 }
 
-class FlutterTutorialApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Lerning Flutter",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Lerning Flutter"),
-        ),
-        // body: Image.asset('assets/images/1.jpg'),
-        body: Align(
-          child: IconButton(
-            icon: Icon(
-              Icons.search,
-              size: 50.0,
-              color: Colors.red,
-            ),
-            onPressed: () {
-              print('Icon button on press');
-            },
-          ),
-          alignment: Alignment.centerLeft,
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Text('Add'),
-          onPressed: null,
-        ),
-        //bottomNavigationBar: BottomNavigationBar()
-      ),
+      home: FileOperations(),
     );
   }
 }
