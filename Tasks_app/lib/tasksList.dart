@@ -2,7 +2,9 @@
 //import 'dart:io';
 
 import 'dart:io';
-
+//import 'dart:math';
+import 'package:Tasks_app/taskDetail.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -87,7 +89,6 @@ class _TasksListState extends State<TasksList> {
         children: [
           Container(
               height: 100,
-              //color: Colors.blue.shade200,
               child: DrawerHeader(
                 decoration: BoxDecoration(color: Colors.blue.shade100),
                 child: CircleAvatar(
@@ -99,8 +100,8 @@ class _TasksListState extends State<TasksList> {
           ListTile(leading: Icon(Icons.access_alarm), title: Text("Menu")),
           ListTile(leading: Icon(Icons.add_moderator), title: Text("Menu")),
           ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text("Exit"),
+            leading: Icon(Icons.exit_to_app, color: Colors.blue),
+            title: Text("Exit", style: TextStyle(color: Colors.blue)),
             onTap: () => exit(0),
           ),
         ],
@@ -140,64 +141,82 @@ class _TasksListState extends State<TasksList> {
     );
   }
 
-  Widget listBlock(dynamic snapshot) {
+  Widget listBlock(AsyncSnapshot<List<Task>> snapshot) {
     return ListView.builder(
         itemCount: snapshot.data.length,
         itemBuilder: (context, index) {
-          return Container(
-            height: 66,
-            padding: EdgeInsets.all(4.0),
-            child: Row(
-              children: [
-                Container(
-                  width: 9.25,
-                  margin: EdgeInsets.only(right: 6.16),
-                  decoration: BoxDecoration(
-                    color: colorCode[index],
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        top: 12, right: 24, bottom: 12, left: 18.6),
-                    height: 66,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TaskDetail(snapshot.data[index])),
+              );
+            },
+            child: Container(
+              height: 66,
+              padding: EdgeInsets.all(4.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: 9.25,
+                    margin: EdgeInsets.only(right: 6.16),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
-                        color: Color.fromRGBO(248, 248, 248, 1)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "title",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                snapshot.data[index].title,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.brightness_1_outlined,
-                          color: Colors.blue,
-                        ),
-                      ],
+                      color: colorCode[index],
+                      borderRadius: BorderRadius.circular(6),
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: 12, right: 24, bottom: 12, left: 18.6),
+                      height: 66,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color.fromRGBO(248, 248, 248, 1)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data[index].title,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  createdAt(snapshot.data[index].createdAt
+                                      .toString()),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.brightness_1_outlined,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });
+  }
+
+  String createdAt(String value) {
+    final dateTimeString = value;
+    final dateTime = DateTime.parse(dateTimeString);
+    final format = DateFormat('dd MMM yyyy');
+    final clockString = format.format(dateTime);
+    return clockString;
   }
 }
