@@ -25,9 +25,8 @@ class _TasksListState extends State<TasksList> {
     Color.fromRGBO(177, 248, 193, 1)
   ];
 
-  Future<List<Task>> fetchAlbum() async {
+  Future<List<Task>> fetchTasks() async {
     var response = await http.get(url);
-
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
       return list.map((e) => Task.fromJson(e)).toList();
@@ -36,34 +35,16 @@ class _TasksListState extends State<TasksList> {
     }
   }
 
-  // var dio = Dio();
-  // Future<List<Task>> fetchAlbum() async {
-  //   var response = await dio.get(url);
-  //   Iterable<dynamic> listData = response.data;
-  //   return listData.map((e) => Task.fromJson(e)).toList();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(254, 254, 255, 1),
       appBar: AppBar(
-        // flexibleSpace: Container(
-        //    decoration: BoxDecoration(
-        //    gradient: LinearGradient(
-        //    begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: <Color>[
-        //       Color.fromRGBO(254, 254, 255, 0.5),
-        //       Colors.white
-        //     ])
-        //    ),
-        //   ),
         elevation: 0,
         centerTitle: true,
         iconTheme: IconThemeData(color: Color.fromRGBO(1, 118, 225, 1)),
         title: Text(
-          "test.",
+          "task.",
           style: TextStyle(
             color: Color.fromRGBO(1, 118, 225, 1),
             fontSize: 22,
@@ -75,7 +56,9 @@ class _TasksListState extends State<TasksList> {
         width: 53,
         height: 53,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            taskCreated(context).then((value) {});
+          },
           backgroundColor: Colors.white,
           child: Icon(
             Icons.add,
@@ -124,7 +107,7 @@ class _TasksListState extends State<TasksList> {
             Expanded(
               flex: 10,
               child: FutureBuilder<List<Task>>(
-                future: fetchAlbum(),
+                future: fetchTasks(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return listBlock(snapshot);
@@ -139,6 +122,29 @@ class _TasksListState extends State<TasksList> {
         ),
       ),
     );
+  }
+
+  Future<String> taskCreated(BuildContext context) {
+    TextEditingController customController = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Add new task"),
+            content: TextField(
+              controller: customController,
+            ),
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(customController.text.toString());
+                },
+                elevation: 5.0,
+                child: Text('Submit'),
+              ),
+            ],
+          );
+        });
   }
 
   Widget listBlock(AsyncSnapshot<List<Task>> snapshot) {
