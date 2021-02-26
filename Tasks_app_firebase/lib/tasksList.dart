@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:Tasks_app_firebase/models/Task.dart';
 import 'package:Tasks_app_firebase/taskDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toast/toast.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TasksList extends StatefulWidget {
   @override
@@ -26,9 +29,9 @@ class _TasksListState extends State<TasksList> {
   }
 
   final List<Color> colorCode = [
+    Color.fromRGBO(177, 248, 193, 1),
     Color.fromRGBO(255, 222, 222, 1),
-    Color.fromRGBO(91, 177, 255, 0.35),
-    Color.fromRGBO(177, 248, 193, 1)
+    Color.fromRGBO(91, 177, 255, 0.35)
   ];
   var colorIndex = 0;
 
@@ -122,29 +125,30 @@ class _TasksListState extends State<TasksList> {
     );
   }
 
-  Future<String> taskCreated(BuildContext context) {
+  taskCreated(BuildContext context) {
     TextEditingController customController = new TextEditingController();
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Add new task"),
+            title: Text("Task title"),
             content: TextField(
               controller: customController,
             ),
             actions: [
-              MaterialButton(
+              FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pop(customController.text.toString());
+                  addTask(customController.text.toString(),
+                      DateTime.now().toString());
+                  Navigator.of(context).pop();
                 },
-                elevation: 5.0,
-                child: GestureDetector(
-                  onTap: () {
-                    addTask(customController.text.toString(),
-                        DateTime.now().toString());
-                  },
-                  child: Text('Submit'),
-                ),
+                child: Text('Add'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
               ),
             ],
           );
@@ -173,7 +177,8 @@ class _TasksListState extends State<TasksList> {
                     width: 9.25,
                     margin: EdgeInsets.only(right: 6.16),
                     decoration: BoxDecoration(
-                      color: colorCode[colorIndex < 2 ? ++ colorIndex : colorIndex = 0],
+                      color: colorCode[
+                          colorIndex < 2 ? ++colorIndex : colorIndex = 0],
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
