@@ -6,7 +6,7 @@ import 'package:Tasks_app_firebase/taskDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:toast/toast.dart';
+//import 'package:toast/toast.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TasksList extends StatefulWidget {
@@ -26,6 +26,17 @@ class _TasksListState extends State<TasksList> {
     var ref = _firebase.collection('tasks');
     var documentRef = await ref.add({'title': title, 'createdAt': createdAt});
     return Task(id: documentRef.id, title: title, createdAt: createdAt);
+  }
+
+  Future<void> deleteTask(String taskId) {
+    var ref = _firebase.collection('tasks').doc(taskId).delete();
+    return ref;
+  }
+
+  Future<void> updateTask(String taskId, String title) {
+    var ref =
+        _firebase.collection('tasks').doc(taskId).update({'title': title});
+    return ref;
   }
 
   final List<Color> colorCode = [
@@ -155,73 +166,126 @@ class _TasksListState extends State<TasksList> {
         });
   }
 
+  taskUpdate(taskId) {
+    TextEditingController customController = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Edit task title"),
+            content: TextField(
+              controller: customController,
+            ),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  updateTask(taskId, customController.text.toString());
+                },
+                child: Text('Edit'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+            ],
+          );
+        });
+  }
+
   Widget listBlock(AsyncSnapshot<QuerySnapshot> snapshots) {
     return ListView.builder(
         itemCount: snapshots.data.docs.length,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        TaskDetail(snapshots.data.docs[index])),
-              );
-            },
-            child: Container(
-              height: 66,
-              padding: EdgeInsets.all(4.0),
-              child: Row(
-                children: [
-                  Container(
-                    width: 9.25,
-                    margin: EdgeInsets.only(right: 6.16),
-                    decoration: BoxDecoration(
-                      color: colorCode[
-                          colorIndex < 2 ? ++colorIndex : colorIndex = 0],
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          top: 12, right: 24, bottom: 12, left: 18.6),
-                      height: 66,
+          return Slidable(
+            key: ValueKey(index),
+            actionPane: SlidableDrawerActionPane(),
+            secondaryActions: [
+              IconSlideAction(
+                caption: 'Edit',
+                color: Colors.grey.shade400,
+                icon: Icons.edit,
+                closeOnTap: false,
+                onTap: () {
+                  taskUpdate(snapshots.data.docs[index].id.toString());
+                },
+              ),
+              IconSlideAction(
+                caption: 'Delete',
+                color: Colors.red.shade400,
+                icon: Icons.delete,
+                closeOnTap: false,
+                onTap: () {
+                  deleteTask(snapshots.data.docs[index].id.toString());
+                },
+              ),
+            ],
+            dismissal: SlidableDismissal(child: SlidableDrawerDismissal()),
+            child: GestureDetector(
+              onDoubleTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TaskDetail(snapshots.data.docs[index])),
+                );
+              },
+              child: Container(
+                height: 66,
+                padding: EdgeInsets.all(4.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 9.25,
+                      margin: EdgeInsets.only(right: 6.16),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: Color.fromRGBO(248, 248, 248, 1)),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  snapshots.data.docs[index]['title'],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  createdAt(
-                                      snapshots.data.docs[index]['createdAt']),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(
-                            Icons.brightness_1_outlined,
-                            color: Colors.blue,
-                          ),
-                        ],
+                        color: colorCode[
+                            colorIndex < 2 ? ++colorIndex : colorIndex = 0],
+                        borderRadius: BorderRadius.circular(6),
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: 12, right: 24, bottom: 12, left: 18.6),
+                        height: 66,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Color.fromRGBO(248, 248, 248, 1)),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshots.data.docs[index]['title'],
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    createdAt(snapshots.data.docs[index]
+                                        ['createdAt']),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.brightness_1_outlined,
+                              color: Colors.blue,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
