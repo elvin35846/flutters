@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'models/Task.dart';
+import 'components/date_format.dart';
+import 'models/task.dart';
 
-class TaskDetail extends StatelessWidget {
+class DetailPage extends StatelessWidget {
   final Task data;
-  TaskDetail(this.data);
+  DetailPage(this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class TaskDetail extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    createdAt(data.createdAt.toString()),
+                    MyDateFormat.dateFormat(data.createdAt.toString()),
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -53,13 +53,5 @@ class TaskDetail extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String createdAt(String value) {
-    final dateTimeString = value;
-    final dateTime = DateTime.parse(dateTimeString);
-    final format = DateFormat('dd MMM yyyy HH:mm a');
-    final clockString = format.format(dateTime);
-    return clockString;
   }
 }
