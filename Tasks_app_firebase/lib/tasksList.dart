@@ -168,13 +168,36 @@ class _TasksListState extends State<TasksList> {
 
   taskUpdate(taskId) {
     TextEditingController customController = new TextEditingController();
+    String oldTaskTitle = '??????????????';
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text("Edit task title"),
-            content: TextField(
-              controller: customController,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Old title',
+                  style: TextStyle(fontSize: 18, color: Colors.blueAccent),
+                ),
+                Text(oldTaskTitle),
+                SizedBox(height: 20),
+                Text(
+                  'New title',
+                  style: TextStyle(fontSize: 18, color: Colors.blueAccent),
+                ),
+                TextField(
+                  controller: customController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter new title',
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(8),
+                  ),
+                ),
+              ],
             ),
             actions: [
               FlatButton(
