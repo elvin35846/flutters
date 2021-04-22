@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: FirebaseCrud(),
@@ -138,17 +143,57 @@ class _FirebaseCrudState extends State<FirebaseCrud> {
                       elevation: 5,
                     )),
                 ElevatedButton(
-                    onPressed: () {
-                      deletData();
-                    },
-                    child: Text("Delet"),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      onPrimary: Colors.white,
-                      shadowColor: Colors.orangeAccent,
-                      elevation: 5,
-                    )),
+                  onPressed: () {
+                    deletData();
+                  },
+                  child: Text("Delet"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.orange,
+                    onPrimary: Colors.white,
+                    shadowColor: Colors.orangeAccent,
+                    elevation: 5,
+                  ),
+                ),
               ],
+            ),
+            SizedBox(height: 50),
+            Row(
+              children: [
+                Expanded(child: Text('Id')),
+                Expanded(child: Text('Name')),
+                Expanded(child: Text('Category')),
+                Expanded(child: Text('Page count')),
+              ],
+            ),
+            SizedBox(height: 10),
+            StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('library').snapshots(),
+              builder: (context, getData) {
+                if (getData.hasError) {
+                  return Text('Error get data...');
+                }
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: getData.data.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot rowData = getData.data.docs[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Row(
+                        children: [
+                          Expanded(child: Text(rowData['bookId'])),
+                          Expanded(child: Text(rowData['bookName'])),
+                          Expanded(child: Text(rowData['bookCategory'])),
+                          Expanded(child: Text(rowData['bookPageCount'])),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -157,14 +202,71 @@ class _FirebaseCrudState extends State<FirebaseCrud> {
   }
 
   //----- add data in firebase ---
-  void addData(){}
+  void addData() {
+    DocumentReference dataUrl =
+        FirebaseFirestore.instance.collection('library').doc(id);
+
+    Map<String, dynamic> books = {
+      'bookId': id,
+      'bookName': name,
+      'bookCategory': category,
+      'bookPageCount': pageCount.toString(),
+    };
+
+    dataUrl.set(books).whenComplete(() {
+      Fluttertoast.showToast(msg: 'Add book with ID: ' + id);
+    });
+  }
 
   //----- read data in firebase ---
-  void readData(){}
+  void readData() {
+    DocumentReference dataUrl =
+        FirebaseFirestore.instance.collection('library').doc(id);
+
+    dataUrl.get().then((payload) {
+      Map<String, dynamic> getData = payload.data();
+
+      String getId = getData['bookId'];
+      String getName = getData['bookName'];
+      String getCategory = getData['bookCategory'];
+      String getPageCount = getData['bookPageCount'];
+
+      Fluttertoast.showToast(
+          msg: 'Id: ' +
+              getId +
+              ' Name: ' +
+              getName +
+              ' Category: ' +
+              getCategory +
+              ' Page count: ' +
+              getPageCount);
+    });
+  }
 
   //----- edit data in firebase ---
-  void editData(){}
+  void editData() {
+    DocumentReference dataUrl =
+        FirebaseFirestore.instance.collection('library').doc(id);
+
+    Map<String, dynamic> editData = {
+      'bookId': id,
+      'bookName': name,
+      'bookCategory': category,
+      'bookPageCount': pageCount.toString(),
+    };
+
+    dataUrl.update(editData).whenComplete(() {
+      Fluttertoast.showToast(msg: 'Edit book with ID: ' + id);
+    });
+  }
 
   //----- delet data in firebase ---
-  void deletData(){}
+  void deletData() {
+    DocumentReference dataUrl =
+        FirebaseFirestore.instance.collection('library').doc(id);
+
+    dataUrl.delete().whenComplete(() {
+      Fluttertoast.showToast(msg: 'Delet book with ID: ' + id);
+    });
+  }
 }
