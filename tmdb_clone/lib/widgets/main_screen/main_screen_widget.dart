@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tmdb_clone/widgets/auth/auth_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
   final bool status;
@@ -10,9 +9,20 @@ class MainScreenWidget extends StatefulWidget {
 }
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
+  int _selectTab = 0;
+  static const List<Widget> _widgetOptions = [
+    Center(child: Text('Home page')),
+    Center(child: Text('Films page')),
+    Center(child: Text('TV series page')),
+  ];
+  void onSelectTab(int index) {
+    setState(() {
+      _selectTab = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         leading: Icon(
@@ -24,8 +34,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                   ? Icon(Icons.login, color: Colors.white)
                   : Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute<void>(
-                    builder: (context) => AuthWidget()));
+                Navigator.of(context).pushNamed('/auth_page');
               })
         ],
         title: Image.asset(
@@ -34,6 +43,18 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           height: 40,
         ),
         centerTitle: true,
+      ),
+      body: _widgetOptions[_selectTab],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectTab,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Films'),
+          BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'TV series'),
+        ],
+        onTap: (index) {
+          onSelectTab(index);
+        },
       ),
     );
   }

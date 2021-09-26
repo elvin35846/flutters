@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tmdb_clone/theme/light_theme.dart';
+import 'package:tmdb_clone/widgets/auth/auth_widget.dart';
 import 'package:tmdb_clone/widgets/main_screen/main_screen_widget.dart';
 
 void main() {
@@ -11,11 +13,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(backgroundColor: const Color.fromRGBO(3, 37, 65, 1)),
-        primarySwatch: Colors.blue,
-      ),
-      home: MainScreenWidget(status: false,),
+      theme: LightTheme.instance.data,
+      routes: {
+        '/': (context) => MainScreenWidget(status: false),
+        '/auth_page': (context) => AuthWidget(),
+      },
+      initialRoute: '/',
     );
   }
 }
